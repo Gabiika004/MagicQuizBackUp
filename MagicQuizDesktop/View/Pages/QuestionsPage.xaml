@@ -1,0 +1,153 @@
+﻿<Page x:Class="MagicQuizDesktop.View.Pages.QuestionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MagicQuizDesktop.View.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:mw="clr-namespace:MagicQuizDesktop.ViewModels"
+      xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="QuestionsPage">
+    
+    <!--<Page.DataContext>
+        <mw:QuestionViewModel/>
+    </Page.DataContext>-->
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <WrapPanel Orientation="Horizontal" 
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Left"
+                Margin="20,5,0,20">
+            <TextBox Width="200" 
+                     VerticalAlignment="Center" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                        Height="25" 
+                        Margin="0,0,20,10"
+                        FontSize="18"/>
+            <Button x:Name="btnSearch"    
+    Command="{Binding SearchCommand}"
+    BorderThickness="0"
+    Content="Keresés"
+    Foreground="White"
+    FontSize="13"
+    FontFamily="Montserrat"
+    Cursor="Hand"
+    Grid.Column="2"
+    Margin="0,0,20,10">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#28AEED"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#0A46A0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="80" Height="30"
+                                CornerRadius="15"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button x:Name="btnNewQuestion"    
+            Command="{Binding OpenNewQuestionWindowCommand}"
+            BorderThickness="0"
+            Content="Új kérdés"
+            Foreground="White"
+            FontSize="13"
+            FontFamily="Montserrat"
+            Cursor="Hand"
+            Grid.Column="2"
+            Margin="0,0,30,10">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="CadetBlue"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#07F3C0"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="80" Height="30"
+                            CornerRadius="15"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#D7596D"
+                           FontSize="13"
+                           MaxWidth="500"
+                           FontWeight="Medium"
+                           FontFamily="Montserrat"
+                           Margin="0,0,0,0"
+                           TextWrapping="Wrap"/> 
+            
+            <TextBlock Text="{Binding Message}"
+                           Foreground="Green"
+                           FontSize="13"
+                           MaxWidth="500"
+                           FontWeight="Medium"
+                           FontFamily="Montserrat"
+                           Margin="0,0,0,0"
+                           TextWrapping="Wrap"/>
+        </WrapPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalAlignment="Center"
+                      Grid.Row="1">
+
+            <ItemsControl ItemsSource="{Binding FilteredQuestions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                          
+                        <materialDesign:Card 
+                            Margin="10" 
+                            Padding="5" 
+                            Background="{DynamicResource color1}" 
+                            MaxHeight="220" MaxWidth="1000"
+                            Cursor="Hand">
+
+                            <TextBlock Text="{Binding QuestionText}" FontSize="30" TextWrapping="Wrap"  TextAlignment="Center" VerticalAlignment="Center"/>
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.OpenQuestionWindowCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </materialDesign:Card>
+  
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

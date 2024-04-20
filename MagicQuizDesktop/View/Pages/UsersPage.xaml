@@ -1,0 +1,106 @@
+﻿<Page x:Class="MagicQuizDesktop.View.Pages.UsersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MagicQuizDesktop.View.Pages"
+      xmlns:mw="clr-namespace:MagicQuizDesktop.ViewModels"
+      xmlns:converter="clr-namespace:MagicQuizDesktop.Converters"
+      xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1050"
+      Title="UsersPage">
+
+    <Page.DataContext>
+        <mw:UsersViewModel/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <converter:BooleanToActiveInactiveConverter x:Key="BooleanToActiveInactiveConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#D7596D"
+                           FontSize="12"
+                           FontWeight="Medium"
+                           FontFamily="Montserrat"
+                           Margin="10"
+                           TextWrapping="Wrap"/>
+        <ListView ItemsSource="{Binding Users}" 
+              Background="Transparent" 
+              BorderThickness="0"
+              Grid.Row="1">
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <Button Background="Transparent"
+                    Command="{Binding DataContext.ShowUserWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                     CommandParameter="{Binding}"
+                    BorderThickness="0">
+
+                    <materialDesign:Card Margin="5"
+                                 Padding="16"
+                                 Width="380"
+                                 Height="200"                              
+                                 Background="CadetBlue">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition/>
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Kép hozzáadása -->
+                            <Border Width="100"
+                            Height="100"
+                            Background="White"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="50"
+                            BorderBrush="Black"
+                            Grid.Column="0"
+                            Grid.RowSpan="2"
+                            BorderThickness="2">
+
+                                <Image  Source="{Binding Avatar}"
+                                    Width="100"
+                                    Height="100"
+                                    Stretch="Uniform"/>
+                            </Border>
+
+                            <TextBlock Text="{Binding Id}" FontWeight="Bold" HorizontalAlignment="Left" Grid.Row="0" FontSize="20"/>
+                            <TextBlock Text="{Binding Name}"  Grid.ColumnSpan="2"  HorizontalAlignment="Center" FontWeight="Bold" Grid.Row="2" FontSize="20" TextWrapping="Wrap" Foreground="White"/>
+                        </Grid>
+
+                  
+               
+                </materialDesign:Card>
+                </Button>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Template>
+            <ControlTemplate>
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden">
+                    <ItemsPresenter />
+                </ScrollViewer>
+            </ControlTemplate>
+        </ListView.Template>
+    </ListView>
+    </Grid>
+
+    
+</Page>
